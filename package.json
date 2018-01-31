@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "color-mapper": "0.0.2",
     "lodash": "^4.17.4",
     "normalize.css": "^7.0.0",
     "react": "^16.2.0",
