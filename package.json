@@ -10,9 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "color-mapper": "0.0.2",
+    "color-mapper": "0.0.3",
     "lodash": "^4.17.4",
     "normalize.css": "^7.0.0",
+    "pixi-filters": "^2.5.1",
+    "pixi.js": "^4.7.0",
     "react": "^16.2.0",
     "react-amap": "^1.2.0",
     "react-dom": "^16.2.0"
