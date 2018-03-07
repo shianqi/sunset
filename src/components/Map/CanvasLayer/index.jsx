@@ -1,5 +1,16 @@
 import React, { PureComponent } from 'react'
+import GeoTIFF from 'geotiff'
+import plotty from 'plotty'
+import img from '../../img/1-DEFLATE.tiff'
 import _ from 'lodash'
+
+const canvas = document.createElement('canvas')
+canvas.width = canvas.height = 256
+const plot = new plotty.plot({
+  canvas: canvas,
+  domain: [0, 300],
+  colorScale: "inferno",
+})
 
 class CanvasLayer extends PureComponent {
   constructor (props) {
@@ -16,26 +27,51 @@ class CanvasLayer extends PureComponent {
   }
 
   renderCanvas (x, y, z, success, fail) {
-    var canvas = document.createElement('canvas')
-    canvas.width = canvas.height = 256
-    var ctx = canvas.getContext('2d')
-    ctx.font = '15px Verdana'
-    ctx.globalAlpha = 0.4
-    ctx.fillStyle = '#ff0000'
-    ctx.strokeStyle = '#FF0000'
-    // ctx.strokeRect(0, 0, 256, 256)
-    ctx.fillText(`(${[x, y, z].join(',')})`, 10, 30)
+    // console.log('?')
+    // var ctx = canvas.getContext('2d')
+    // ctx.font = '15px Verdana'
+    // ctx.globalAlpha = 0.4
+    // ctx.fillStyle = '#ff0000'
+    // ctx.strokeStyle = '#FF0000'
+    // // ctx.strokeRect(0, 0, 256, 256)
+    // ctx.fillText(`(${[x, y, z].join(',')})`, 10, 30)
 
-    _.range(0, 255, 16).map((x) => {
-      _.range(0, 255, 16).map((y) => {
-        ctx.fillStyle = `#${Math.random().toString().slice(2, 8)}`
-        ctx.beginPath()
-        ctx.arc(x + 8, y + 8, 4, 0, 2 * Math.PI)
-        ctx.fill()
-      })
-    })
+    // _.range(0, 255, 16).map((x) => {
+    //   _.range(0, 255, 16).map((y) => {
+    //     ctx.fillStyle = `#${Math.random().toString().slice(2, 8)}`
+    //     ctx.beginPath()
+    //     ctx.arc(x + 8, y + 8, 4, 0, 2 * Math.PI)
+    //     ctx.fill()
+    //   })
+    // })
 
-    success(canvas)
+    var xhr = new XMLHttpRequest()
+    xhr.open('GET', img, true)
+    xhr.responseType = 'arraybuffer'
+    xhr.onload = function(e) {
+      const tiff = GeoTIFF.parse(this.response)
+      const image = tiff.getImage()
+      // or use .getImage(n) where n is between 0 and
+      // tiff.getImageCount()
+
+      const rasters = image.readRasters()
+      plot.setData(rasters[0], image.getWidth(), image.getHeight())
+      plot.render()
+
+      const newCanvas = document.createElement('canvas')
+      newCanvas.width = newCanvas.height = 256;
+      const newCtx = newCanvas.getContext('2d')
+
+      const imgData = canvas.toDataURL()
+      const img = new Image();
+      img.onload = function() {
+        newCtx.globalAlpha = 0.5
+        newCtx.drawImage(img, 0, 0)
+        success(newCanvas)
+      }
+      img.src = imgData
+    }
+    xhr.send()
   }
 
   componentDidMount () {

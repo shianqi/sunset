@@ -8,7 +8,7 @@ import GeoTiff from '../components/GeoTiff'
 class App extends PureComponent {
   render () {
     return (
-      <GeoTiff />
+      <Map />
     )
   }
 }
