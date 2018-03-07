@@ -11,13 +11,16 @@
   "license": "ISC",
   "dependencies": {
     "color-mapper": "0.0.3",
+    "geotiff": "^0.4.1",
     "lodash": "^4.17.4",
     "normalize.css": "^7.0.0",
     "pixi-filters": "^2.5.1",
     "pixi.js": "^4.7.0",
+    "plotty": "^0.2.0",
     "react": "^16.2.0",
     "react-amap": "^1.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "tiff.js": "^1.0.0"
   },
   "devDependencies": {
     "babel-preset-env": "^1.6.1",

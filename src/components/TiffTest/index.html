@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./tiff.min.js"></script>
+</head>
+<body>
+  <script>
+  var xhr = new XMLHttpRequest();
+  xhr.responseType = 'arraybuffer';
+  xhr.open('GET', "./10.tiff");
+  xhr.onload = function (e) {
+    var tiff = new Tiff({buffer: xhr.response});
+    var canvas = tiff.toCanvas();
+    document.body.append(canvas);
+  };
+  xhr.send();
+  </script>
+</body>
+</html>
