@@ -2,13 +2,13 @@ import React, { PureComponent } from 'react'
 import GeoTIFF from 'geotiff'
 import plotty from 'plotty'
 // import img from './1-PACKBITS.tiff'
-// import img from './1-DEFLATE.tiff'
+// import img from '../img/1-DEFLATE.tiff'
 // import img from './1-LZMA.tiff'
 // import img from './1-LZW.tiff'
 // import img from './1-PACKBITS.tiff'
 // import img from './1-ZSTD.tiff'
-import img from '../img/1.tiff'
-// import img from './10.tiff'
+// import img from '../img/take-02.tiff'
+import img from '../img/1-tile.tiff'
 
 class GeoTiffComponent extends PureComponent {
   componentDidMount () {
@@ -24,15 +24,22 @@ class GeoTiffComponent extends PureComponent {
       // tiff.getImageCount()
       var rasters = image.readRasters()
       console.log(rasters[0])
+
+      var fl = new Float32Array(image.getWidth() * image.getHeight())
+      for (var i = 0; i < fl.length; i++) {
+        fl[i] = parseFloat(rasters[0][i] / 1000, 10);
+      }
+      console.log(fl)
       var plot = new plotty.plot({
         canvas,
-        data: rasters[0],
+        data: fl,
         width: image.getWidth(),
         height: image.getHeight(),
-        domain: [0, 300],
+        domain: [0.2, 0.4],
         colorScale: "viridis",
       })
       plot.render()
+      console.log('render?')
     }
     xhr.send()
   }

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import GeoTIFF from 'geotiff'
 import plotty from 'plotty'
-import img from '../../img/1-DEFLATE.tiff'
+import img from '../../img/1-tile.tiff'
 import _ from 'lodash'
 
 const canvas = document.createElement('canvas')
@@ -9,7 +9,7 @@ canvas.width = canvas.height = 256
 const plot = new plotty.plot({
   canvas: canvas,
   domain: [0, 300],
-  colorScale: "inferno",
+  colorScale: "summer",
 })
 
 class CanvasLayer extends PureComponent {
@@ -55,7 +55,11 @@ class CanvasLayer extends PureComponent {
       // tiff.getImageCount()
 
       const rasters = image.readRasters()
-      plot.setData(rasters[0], image.getWidth(), image.getHeight())
+      var fl = new Float32Array(image.getWidth() * image.getHeight())
+      for (var i = 0; i < fl.length; i++) {
+        fl[i] = rasters[0][i];
+      }
+      plot.setData(fl, image.getWidth(), image.getHeight())
       plot.render()
 
       const newCanvas = document.createElement('canvas')
@@ -67,6 +71,10 @@ class CanvasLayer extends PureComponent {
       img.onload = function() {
         newCtx.globalAlpha = 0.5
         newCtx.drawImage(img, 0, 0)
+        newCtx.fillStyle = '#ff0000'
+        newCtx.strokeStyle = '#ff0000'
+        newCtx.strokeRect(0, 0, 256, 256)
+        newCtx.fillText(`(${[x, y, z].join(',')})`, 10, 30)
         success(newCanvas)
       }
       img.src = imgData
