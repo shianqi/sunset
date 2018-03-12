@@ -2,14 +2,15 @@ import React, { PureComponent } from 'react'
 import GeoTIFF from 'geotiff'
 import plotty from 'plotty'
 import img from '../../img/1-tile.tiff'
-import _ from 'lodash'
+// import _ from 'lodash'
 
+/* eslint-disable new-cap */
 const canvas = document.createElement('canvas')
 canvas.width = canvas.height = 256
 const plot = new plotty.plot({
   canvas: canvas,
   domain: [0, 300],
-  colorScale: "summer",
+  colorScale: 'summer',
 })
 
 class CanvasLayer extends PureComponent {
@@ -48,7 +49,7 @@ class CanvasLayer extends PureComponent {
     var xhr = new XMLHttpRequest()
     xhr.open('GET', img, true)
     xhr.responseType = 'arraybuffer'
-    xhr.onload = function(e) {
+    xhr.onload = function (e) {
       const tiff = GeoTIFF.parse(this.response)
       const image = tiff.getImage()
       // or use .getImage(n) where n is between 0 and
@@ -57,18 +58,18 @@ class CanvasLayer extends PureComponent {
       const rasters = image.readRasters()
       var fl = new Float32Array(image.getWidth() * image.getHeight())
       for (var i = 0; i < fl.length; i++) {
-        fl[i] = rasters[0][i];
+        fl[i] = rasters[0][i]
       }
       plot.setData(fl, image.getWidth(), image.getHeight())
       plot.render()
 
       const newCanvas = document.createElement('canvas')
-      newCanvas.width = newCanvas.height = 256;
+      newCanvas.width = newCanvas.height = 256
       const newCtx = newCanvas.getContext('2d')
 
       const imgData = canvas.toDataURL()
-      const img = new Image();
-      img.onload = function() {
+      const img = new Image()
+      img.onload = () => {
         newCtx.globalAlpha = 0.5
         newCtx.drawImage(img, 0, 0)
         newCtx.fillStyle = '#ff0000'

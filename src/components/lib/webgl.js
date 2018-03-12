@@ -118,13 +118,13 @@ export class WebGLMapper {
     gl.enableVertexAttribArray(aTextCoord)
 
     const data = _.concat(...this.colorMap.map((item) => (
-      [item[0]/255, item[1]/255, item[2]/255]
+      [item[0] / 255, item[1] / 255, item[2] / 255]
     )))
     const targetColors = gl.getUniformLocation(shaderProgram, 'targetColors')
     gl.uniform3fv(targetColors, data)
 
     const original = _.concat(..._.range(256).map((i) => (
-      [i/255, i/255, i/255]
+      [i / 255, i / 255, i / 255]
     )))
     const originalColors = gl.getUniformLocation(shaderProgram, 'originalColors')
     gl.uniform3fv(originalColors, original)

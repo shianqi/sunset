@@ -10,14 +10,15 @@ import plotty from 'plotty'
 // import img from '../img/take-02.tiff'
 import img from '../img/1-tile.tiff'
 
+/* eslint-disable new-cap */
 class GeoTiffComponent extends PureComponent {
   componentDidMount () {
-    var canvas = document.getElementById("plot")
+    var canvas = document.getElementById('plot')
 
     var xhr = new XMLHttpRequest()
     xhr.open('GET', img, true)
     xhr.responseType = 'arraybuffer'
-    xhr.onload = function(e) {
+    xhr.onload = (e) => {
       var tiff = GeoTIFF.parse(this.response)
       var image = tiff.getImage()
       // or use .getImage(n) where n is between 0 and
@@ -27,7 +28,7 @@ class GeoTiffComponent extends PureComponent {
 
       var fl = new Float32Array(image.getWidth() * image.getHeight())
       for (var i = 0; i < fl.length; i++) {
-        fl[i] = parseFloat(rasters[0][i] / 1000, 10);
+        fl[i] = parseFloat(rasters[0][i] / 1000, 10)
       }
       console.log(fl)
       var plot = new plotty.plot({
@@ -36,7 +37,7 @@ class GeoTiffComponent extends PureComponent {
         width: image.getWidth(),
         height: image.getHeight(),
         domain: [0.2, 0.4],
-        colorScale: "viridis",
+        colorScale: 'viridis',
       })
       plot.render()
       console.log('render?')
