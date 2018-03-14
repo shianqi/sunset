@@ -135,7 +135,6 @@ export class WebGLMapper {
   }
 
   _initTexture (gl, shaderProgram) {
-    const n = this.n
     // 创建纹理对象
     const texture = gl.createTexture()
     // 获取u_Sampler的存储位置
@@ -154,7 +153,6 @@ export class WebGLMapper {
   }
 
   _loadTexture (gl, texture, uSampler, image) {
-    const n = this.n
     // 1.对纹理图像进行Y轴反转
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1)
     // 2.开启0号纹理单元
