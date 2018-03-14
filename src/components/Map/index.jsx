@@ -17,7 +17,7 @@ class MapComponent extends PureComponent {
       <Map
         amapkey={key}
         zoom={5}
-        version={'1.4.3'}
+        version={'1.4.5'}
         center={this.mapCenter}
       >
         <CanvasLayer />

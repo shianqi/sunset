@@ -20,7 +20,6 @@ class CanvasLayer extends PureComponent {
     console.log(window.AMap.Marker)
     console.log(window.AMap.TileLayer.Flexible)
     this.layer = new window.AMap.TileLayer.Flexible({
-      cacheSize: 30,
       zIndex: 200,
       zooms: [3, 16],
       createTile: this.renderCanvas
